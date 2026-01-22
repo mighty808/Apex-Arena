@@ -11,10 +11,10 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="bg-linear-to-r from-blue-600 to-purple-600 w-9 h-9 rounded-lg flex items-center justify-center">
+            <div className="bg-linear-to-r from-blue-600 to-blue-400 w-9 h-9 rounded-lg flex items-center justify-center">
               <Trophy size={22} className="text-white" />
             </div>
-            <span className="font-bold text-xl bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="font-bold text-xl bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
               APEX ARENAS
             </span>
           </Link>
@@ -34,14 +34,14 @@ const Navbar = () => {
               <LogIn size={18} />
               <span>Login</span>
             </NavLink>
-            
+
             <NavLink
               to="/signup"
               className={({ isActive }) =>
                 `flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                   isActive
                     ? "bg-blue-600 text-white"
-                    : "bg-linear-to-r from-blue-600 to-purple-600 text-white hover:shadow-md hover:shadow-blue-500/20"
+                    : "bg-linear-to-r from-blue-600 to-blue-400 text-white hover:shadow-md hover:shadow-blue-500/20"
                 }`
               }
             >
@@ -77,7 +77,7 @@ const Navbar = () => {
                 <LogIn size={20} />
                 <span>Login</span>
               </NavLink>
-              
+
               <NavLink
                 to="/signup"
                 onClick={() => setIsMenuOpen(false)}
@@ -85,7 +85,7 @@ const Navbar = () => {
                   `flex items-center space-x-3 px-4 py-3 rounded-lg font-medium ${
                     isActive
                       ? "bg-blue-600 text-white"
-                      : "bg-linear-to-r from-blue-600 to-purple-600 text-white"
+                      : "bg-linear-to-r from-blue-600 to-blue-400 text-white"
                   }`
                 }
               >
