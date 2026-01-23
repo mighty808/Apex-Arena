@@ -3,6 +3,7 @@ import Landing from "./pages/Landing";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
 
 const Layout = () => (
   <div className="min-h-dvh flex flex-col bg-white text-gray-800">
@@ -20,6 +21,7 @@ const App = () => {
       <Route element={<Layout />}>
         <Route index element={<Landing />} />
         <Route path="signup" element={<SignUp />} />
+        <Route path="login" element={<Login />} />
       </Route>
     </Routes>
   );
