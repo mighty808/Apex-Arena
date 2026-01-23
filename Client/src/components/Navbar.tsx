@@ -11,9 +11,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="bg-linear-to-r from-blue-600 to-blue-400 w-9 h-9 rounded-lg flex items-center justify-center">
-              <Trophy size={22} className="text-white" />
-            </div>
+        
             <span className="font-bold text-xl bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
               APEX ARENAS
             </span>
