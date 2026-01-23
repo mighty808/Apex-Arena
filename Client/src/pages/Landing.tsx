@@ -77,7 +77,7 @@ const Landing = () => {
     <div className="min-h-screen bg-linear-to-b from-gray-50 to-white">
       {/* Hero Section */}
       <section
-        className="relative overflow-hidden bg-cover bg-center h-screen"
+        className="relative overflow-hidden bg-cover bg-center h-[99vh]"
         style={{
           backgroundImage: "url(https://wallpapercave.com/wp/wp10059648.jpg)",
         }}
