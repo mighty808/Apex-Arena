@@ -4,11 +4,11 @@ import Footer from "./components/Footer";
 import Register from "./pages/public/register";
 import AdminDashboard from "./pages/auth/admin/dashboard";
 import AdminUsers from "./pages/auth/admin/users";
-import OrganizerProfile from "./pages/public/profile";
 import CreateTournament from "./pages/auth/organizer/create-tournament";
 import JoinTournament from "./pages/auth/player/join-tournament";
 import Landing from "./pages/public/landing";
 import Login from "./pages/public/Login";
+import Profile from "./pages/public/profile";
 
 const Layout = () => (
   <div className="min-h-dvh flex flex-col bg-white text-gray-800">
@@ -36,11 +36,12 @@ const App = () => {
           </Route>
 
           <Route path="organizer">
-            <Route path="profile" element={<OrganizerProfile />} />
+            <Route path="profile" element={<Profile />} />
             <Route path="create-tournament" element={<CreateTournament />} />
           </Route>
 
           <Route path="player">
+            <Route path="profile" element={<Profile />} />
             <Route path="join-tournament" element={<JoinTournament />} />
           </Route>
         </Route>
