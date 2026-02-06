@@ -1,8 +1,6 @@
 import { Routes, Route, Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import AdminDashboard from "./pages/auth/admin/dashboard";
-import AdminUsers from "./pages/auth/admin/users";
 import CreateTournament from "./pages/auth/organizer/create-tournament";
 import JoinTournament from "./pages/auth/player/join-tournament";
 import Landing from "./pages/public/landing";
@@ -34,11 +32,6 @@ const App = () => {
         <Route path="verify-otp" element={<VerifyOtp />} />
 
         <Route path="auth">
-          <Route path="admin">
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="users" element={<AdminUsers />} />
-          </Route>
-
           <Route path="organizer">
             <Route path="profile" element={<Profile />} />
             <Route path="create-tournament" element={<CreateTournament />} />
