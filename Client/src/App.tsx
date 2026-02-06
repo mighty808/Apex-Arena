@@ -7,9 +7,9 @@ import AdminUsers from "./pages/auth/admin/users";
 import CreateTournament from "./pages/auth/organizer/create-tournament";
 import JoinTournament from "./pages/auth/player/join-tournament";
 import Landing from "./pages/public/landing";
-import Login from "./pages/public/Login";
 import Profile from "./pages/public/profile";
 import NotFound from "./pages/public/not-found";
+import Login from "./pages/public/login";
 
 const Layout = () => (
   <div className="min-h-dvh flex flex-col bg-white text-gray-800">
