@@ -9,9 +9,10 @@ import {
   Check,
   Trophy,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
     username: "",
@@ -99,19 +100,11 @@ const Register = () => {
 
     if (validate()) {
       setTimeout(() => {
-        alert(
-          `Welcome ${form.name} (@${form.username})! Your ${userType} account has been created.`,
-        );
-        setForm({
-          name: "",
-          username: "",
-          email: "",
-          password: "",
-          confirm: "",
-        });
+        const destination = form.email.trim();
         setIsLoading(false);
-        // In real app, redirect to dashboard
-        // navigate(userType === "organizer" ? "/organizer/dashboard" : "/dashboard");
+        navigate("/verify-otp", {
+          state: { destination, purpose: "signup" },
+        });
       }, 1500);
     } else {
       setIsLoading(false);
