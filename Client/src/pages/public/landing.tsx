@@ -137,7 +137,7 @@ const Landing = () => {
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Link>
                 <Link
-                  to="/signup"
+                  to="/login"
                   className="inline-flex items-center justify-center px-8 py-3 text-base font-semibold text-cyan-200 border border-cyan-400/40 rounded-lg hover:bg-cyan-400/10 transition-colors"
                 >
                   Browse tournaments
