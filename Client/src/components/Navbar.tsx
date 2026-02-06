@@ -6,15 +6,16 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-50 border-b border-slate-800/70 bg-slate-950/70 text-white backdrop-blur">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="h-px w-full bg-linear-to-r from-transparent via-cyan-400/25 to-transparent" />
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
             <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-linear-to-br from-cyan-300 via-sky-400 to-indigo-400 text-slate-950">
               <Sparkles size={18} />
             </span>
-            <span className="font-semibold tracking-wide text-lg text-white">
+            <span className="font-display font-bold tracking-wide text-lg text-white">
               APEX ARENAS
             </span>
           </Link>
@@ -61,16 +62,16 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden border-t border-slate-800 py-4">
+          <div className="md:hidden border-t border-slate-800/70 py-4">
             <div className="flex flex-col space-y-3">
               <NavLink
                 to="/login"
                 onClick={() => setIsMenuOpen(false)}
                 className={({ isActive }) =>
-                  `flex items-center space-x-3 px-4 py-3 rounded-lg ${
+                  `flex items-center space-x-3 px-4 py-3 rounded-lg border border-transparent ${
                     isActive
-                      ? "bg-white/10 text-white font-medium"
-                      : "text-slate-300 hover:bg-white/5"
+                      ? "bg-white/10 text-white font-medium border-slate-700"
+                      : "text-slate-300 hover:bg-white/5 hover:border-slate-800"
                   }`
                 }
               >
