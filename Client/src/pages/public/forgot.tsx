@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Mail, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion, useReducedMotion } from "framer-motion";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [sent, setSent] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   const validate = () => {
     const value = email.trim();
@@ -57,16 +59,22 @@ const ForgotPassword = () => {
         {sent ? (
           <div className="space-y-5">
             <div className="rounded-lg border border-emerald-400/30 bg-emerald-400/10 p-4 text-sm text-emerald-200">
-              If an account exists for <span className="font-medium text-white">{email.trim()}</span>,
-              a password reset link has been sent.
+              If an account exists for{" "}
+              <span className="font-medium text-white">{email.trim()}</span>, a
+              password reset link has been sent.
             </div>
 
-            <Link
-              to="/login"
-              className="w-full inline-flex items-center justify-center py-3 rounded-lg bg-linear-to-r from-blue-600 to-blue-400 text-white font-semibold text-lg shadow hover:shadow-lg hover:shadow-blue-500/30 transition-all"
+            <motion.div
+              whileHover={reduceMotion ? undefined : { y: -1 }}
+              whileTap={reduceMotion ? undefined : { scale: 0.98 }}
             >
-              Back to Sign In
-            </Link>
+              <Link
+                to="/login"
+                className="w-full inline-flex items-center justify-center py-3 rounded-lg bg-linear-to-r from-blue-600 to-blue-400 text-white font-semibold text-lg shadow hover:shadow-lg hover:shadow-blue-500/30 transition-all"
+              >
+                Back to Sign In
+              </Link>
+            </motion.div>
           </div>
         ) : (
           <div className="space-y-5">
@@ -99,10 +107,12 @@ const ForgotPassword = () => {
             </div>
 
             {/* Submit Button */}
-            <button
+            <motion.button
               type="submit"
               disabled={isLoading}
               className="mt-2 w-full py-3 rounded-lg bg-linear-to-r from-blue-600 to-blue-400 text-white font-semibold text-lg shadow hover:shadow-lg hover:shadow-blue-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              whileHover={reduceMotion || isLoading ? undefined : { y: -1 }}
+              whileTap={reduceMotion || isLoading ? undefined : { scale: 0.98 }}
             >
               {isLoading ? (
                 <span className="flex items-center justify-center">
@@ -112,10 +122,13 @@ const ForgotPassword = () => {
               ) : (
                 "Send Reset Link"
               )}
-            </button>
+            </motion.button>
 
             <div className="text-center">
-              <Link to="/login" className="text-sm text-cyan-300 hover:underline">
+              <Link
+                to="/login"
+                className="text-sm text-cyan-300 hover:underline"
+              >
                 Back to Sign In
               </Link>
             </div>

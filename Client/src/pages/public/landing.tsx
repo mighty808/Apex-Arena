@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   Trophy,
   Shield,
@@ -17,6 +18,8 @@ import {
 } from "lucide-react";
 
 const Landing = () => {
+  const reduceMotion = useReducedMotion();
+
   const features = [
     {
       icon: <Shield className="w-6 h-6" />,
@@ -160,27 +163,29 @@ const Landing = () => {
       </section>
 
       {/* Signal Strip */}
-        <section className="border-y border-slate-800 bg-transparent">
+      <section className="border-y border-slate-800 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center font-body">
             {stats.map((stat) => (
-              <div
+              <motion.div
                 key={stat.label}
                 className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4"
+                whileHover={reduceMotion ? undefined : { y: -2 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
               >
                 <div className="text-3xl font-display font-bold text-cyan-200">
                   {stat.value}
                 </div>
                 <div className="text-sm text-slate-300 mt-1">{stat.label}</div>
                 <div className="text-xs text-slate-500">{stat.sub}</div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Features */}
-        <section className="py-20 bg-transparent">
+      <section className="py-20 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center font-body mb-12">
             <p className="text-cyan-300 text-sm tracking-widest uppercase">
@@ -196,9 +201,11 @@ const Landing = () => {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 font-body">
             {features.map((feature) => (
-              <div
+              <motion.div
                 key={feature.title}
                 className="group rounded-2xl border border-slate-800 bg-linear-to-br from-slate-900 to-slate-950 p-6 hover:border-cyan-400/60 transition-all"
+                whileHover={reduceMotion ? undefined : { y: -2 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
               >
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-cyan-400/10 text-cyan-300 mb-4 group-hover:bg-cyan-400/20">
                   {feature.icon}
@@ -207,14 +214,14 @@ const Landing = () => {
                   {feature.title}
                 </h3>
                 <p className="text-slate-300 mt-3">{feature.description}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Flow */}
-        <section className="py-20 bg-transparent">
+      <section className="py-20 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-[0.7fr_1.3fr] gap-12 items-start">
             <div className="font-body">
@@ -240,9 +247,11 @@ const Landing = () => {
             </div>
             <div className="space-y-4 font-body">
               {steps.map((step) => (
-                <div
+                <motion.div
                   key={step.number}
                   className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 hover:border-indigo-400/60 transition-all"
+                  whileHover={reduceMotion ? undefined : { y: -2 }}
+                  transition={{ duration: 0.15, ease: "easeOut" }}
                 >
                   <div className="flex items-start gap-4">
                     <div className="font-display text-2xl font-bold text-indigo-300">
@@ -255,7 +264,7 @@ const Landing = () => {
                       <p className="text-slate-300 mt-2">{step.description}</p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -263,7 +272,7 @@ const Landing = () => {
       </section>
 
       {/* Organizers */}
-        <section className="py-20 bg-transparent">
+      <section className="py-20 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="rounded-3xl border border-slate-800 bg-linear-to-r from-slate-900 via-slate-950 to-slate-900 p-8 lg:p-12">
             <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-10 items-center">

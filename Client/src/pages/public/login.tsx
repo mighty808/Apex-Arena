@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Mail, Lock, Eye, EyeOff, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion, useReducedMotion } from "framer-motion";
 
 const Login = () => {
   const [form, setForm] = useState({
@@ -14,6 +15,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   const validate = () => {
     const newErrors = { identifier: "", password: "" };
@@ -159,10 +161,12 @@ const Login = () => {
         </div>
 
         {/* Submit Button */}
-        <button
+        <motion.button
           type="submit"
           disabled={isLoading}
           className="mt-8 w-full py-3 rounded-lg bg-linear-to-r from-cyan-300 via-sky-400 to-indigo-400 text-slate-950 font-semibold text-lg shadow hover:shadow-lg hover:shadow-cyan-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          whileHover={reduceMotion || isLoading ? undefined : { y: -1 }}
+          whileTap={reduceMotion || isLoading ? undefined : { scale: 0.98 }}
         >
           {isLoading ? (
             <span className="flex items-center justify-center">
@@ -172,7 +176,7 @@ const Login = () => {
           ) : (
             "Sign In"
           )}
-        </button>
+        </motion.button>
 
         {submitted && !Object.values(errors).every((v) => !v) && (
           <p className="text-center text-red-400 text-sm mt-4">
@@ -188,10 +192,12 @@ const Login = () => {
         </div>
 
         {/* Social Sign In */}
-        <button
+        <motion.button
           type="button"
           disabled={isLoading}
           className="w-full py-3 px-4 rounded-lg border border-slate-700 hover:border-slate-600 hover:bg-white/5 transition-colors flex items-center justify-center font-medium text-slate-200 disabled:opacity-50"
+          whileHover={reduceMotion || isLoading ? undefined : { y: -1 }}
+          whileTap={reduceMotion || isLoading ? undefined : { scale: 0.98 }}
         >
           <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
             <path
@@ -212,13 +218,16 @@ const Login = () => {
             />
           </svg>
           Continue with Google
-        </button>
+        </motion.button>
 
         {/* Sign Up Link */}
         <div className="mt-6 text-center">
           <p className="text-sm text-slate-300">
             Don&apos;t have an account?{" "}
-            <Link to="/signup" className="text-cyan-300 font-medium hover:underline">
+            <Link
+              to="/signup"
+              className="text-cyan-300 font-medium hover:underline"
+            >
               Create one here
             </Link>
           </p>

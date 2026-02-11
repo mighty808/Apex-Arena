@@ -10,9 +10,11 @@ import {
   Trophy,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { motion, useReducedMotion } from "framer-motion";
 
 const Register = () => {
   const navigate = useNavigate();
+  const reduceMotion = useReducedMotion();
   const [form, setForm] = useState({
     name: "",
     username: "",
@@ -143,7 +145,7 @@ const Register = () => {
             {/* User Type Toggle */}
             <div className="flex mb-6 bg-slate-800/70 border border-slate-700 rounded-lg p-1">
               {["player", "organizer"].map((type) => (
-                <button
+                <motion.button
                   key={type}
                   type="button"
                   onClick={() => setUserType(type)}
@@ -152,9 +154,10 @@ const Register = () => {
                       ? "bg-slate-950 text-white shadow-sm"
                       : "text-slate-300 hover:text-white"
                   }`}
+                  whileTap={reduceMotion ? undefined : { scale: 0.98 }}
                 >
                   {type === "player" ? "Player Account" : "Organizer Account"}
-                </button>
+                </motion.button>
               ))}
             </div>
 
@@ -361,10 +364,14 @@ const Register = () => {
               </div>
 
               {/* Submit Button */}
-              <button
+              <motion.button
                 type="submit"
                 disabled={isLoading}
                 className="mt-6 w-full py-3 px-4 rounded-lg bg-linear-to-r from-cyan-300 via-sky-400 to-indigo-400 text-slate-950 font-semibold hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                whileHover={reduceMotion || isLoading ? undefined : { y: -1 }}
+                whileTap={
+                  reduceMotion || isLoading ? undefined : { scale: 0.98 }
+                }
               >
                 {isLoading ? (
                   <span className="flex items-center justify-center">
@@ -374,7 +381,7 @@ const Register = () => {
                 ) : (
                   `Create ${userType === "organizer" ? "Organizer" : "Player"} Account`
                 )}
-              </button>
+              </motion.button>
             </form>
 
             {/* Divider */}
@@ -387,9 +394,12 @@ const Register = () => {
             </div>
 
             {/* Social Sign Up */}
-            <button
+            <motion.button
+              type="button"
               disabled={isLoading}
               className="w-full py-3 px-4 rounded-lg border border-slate-700 hover:border-slate-600 hover:bg-white/5 transition-colors flex items-center justify-center font-medium text-slate-200 disabled:opacity-50"
+              whileHover={reduceMotion || isLoading ? undefined : { y: -1 }}
+              whileTap={reduceMotion || isLoading ? undefined : { scale: 0.98 }}
             >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                 <path
@@ -410,7 +420,7 @@ const Register = () => {
                 />
               </svg>
               Continue with Google
-            </button>
+            </motion.button>
 
             {/* Terms and Login */}
             <div className="mt-6 text-center space-y-3">

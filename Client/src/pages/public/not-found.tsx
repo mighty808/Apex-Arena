@@ -1,7 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
+import { motion, useReducedMotion } from "framer-motion";
 
 const NotFound = () => {
   const location = useLocation();
+  const reduceMotion = useReducedMotion();
 
   return (
     <section className="mx-auto flex w-full max-w-5xl flex-col items-center justify-center px-6 py-16 text-center text-white">
@@ -22,18 +24,28 @@ const NotFound = () => {
       </p>
 
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <Link
-          to="/"
-          className="rounded-md bg-linear-to-r from-cyan-300 via-sky-400 to-indigo-400 px-4 py-2 text-sm font-semibold text-slate-950 hover:shadow-lg hover:shadow-cyan-500/30 transition-all"
+        <motion.div
+          whileHover={reduceMotion ? undefined : { y: -1 }}
+          whileTap={reduceMotion ? undefined : { scale: 0.98 }}
         >
-          Go to Home
-        </Link>
-        <Link
-          to="/login"
-          className="rounded-md border border-cyan-400/40 bg-transparent px-4 py-2 text-sm font-semibold text-cyan-200 hover:bg-cyan-400/10 transition-colors"
+          <Link
+            to="/"
+            className="rounded-md bg-linear-to-r from-cyan-300 via-sky-400 to-indigo-400 px-4 py-2 text-sm font-semibold text-slate-950 hover:shadow-lg hover:shadow-cyan-500/30 transition-all"
+          >
+            Go to Home
+          </Link>
+        </motion.div>
+        <motion.div
+          whileHover={reduceMotion ? undefined : { y: -1 }}
+          whileTap={reduceMotion ? undefined : { scale: 0.98 }}
         >
-          Go to Login
-        </Link>
+          <Link
+            to="/login"
+            className="rounded-md border border-cyan-400/40 bg-transparent px-4 py-2 text-sm font-semibold text-cyan-200 hover:bg-cyan-400/10 transition-colors"
+          >
+            Go to Login
+          </Link>
+        </motion.div>
       </div>
 
       <p className="mt-10 text-sm text-slate-400">
