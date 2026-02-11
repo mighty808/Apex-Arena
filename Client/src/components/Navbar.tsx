@@ -1,9 +1,11 @@
 import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
 import { Menu, X, LogIn, User, Sparkles } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-800/70 bg-slate-950/70 text-white backdrop-blur">
@@ -22,33 +24,43 @@ const Navbar = () => {
 
           {/* Desktop Auth Buttons */}
           <div className="hidden md:flex items-center space-x-3">
-            <NavLink
-              to="/login"
-              className={({ isActive }) =>
-                `flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  isActive
-                    ? "bg-white/10 text-white"
-                    : "text-slate-300 hover:text-white hover:bg-white/5"
-                }`
-              }
+            <motion.div
+              whileHover={reduceMotion ? undefined : { y: -1 }}
+              whileTap={reduceMotion ? undefined : { scale: 0.98 }}
             >
-              <LogIn size={18} />
-              <span>Login</span>
-            </NavLink>
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  `flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    isActive
+                      ? "bg-white/10 text-white"
+                      : "text-slate-300 hover:text-white hover:bg-white/5"
+                  }`
+                }
+              >
+                <LogIn size={18} />
+                <span>Login</span>
+              </NavLink>
+            </motion.div>
 
-            <NavLink
-              to="/signup"
-              className={({ isActive }) =>
-                `flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                  isActive
-                    ? "bg-linear-to-r from-cyan-300 via-sky-400 to-indigo-400 text-slate-950"
-                    : "bg-linear-to-r from-cyan-300 via-sky-400 to-indigo-400 text-slate-950 hover:shadow-md hover:shadow-cyan-500/30"
-                }`
-              }
+            <motion.div
+              whileHover={reduceMotion ? undefined : { y: -1 }}
+              whileTap={reduceMotion ? undefined : { scale: 0.98 }}
             >
-              <User size={18} />
-              <span>Sign Up</span>
-            </NavLink>
+              <NavLink
+                to="/signup"
+                className={({ isActive }) =>
+                  `flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    isActive
+                      ? "bg-linear-to-r from-cyan-300 via-sky-400 to-indigo-400 text-slate-950"
+                      : "bg-linear-to-r from-cyan-300 via-sky-400 to-indigo-400 text-slate-950 hover:shadow-md hover:shadow-cyan-500/30"
+                  }`
+                }
+              >
+                <User size={18} />
+                <span>Sign Up</span>
+              </NavLink>
+            </motion.div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -61,41 +73,54 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden border-t border-slate-800/70 py-4">
-            <div className="flex flex-col space-y-3">
-              <NavLink
-                to="/login"
-                onClick={() => setIsMenuOpen(false)}
-                className={({ isActive }) =>
-                  `flex items-center space-x-3 px-4 py-3 rounded-lg border border-transparent ${
-                    isActive
-                      ? "bg-white/10 text-white font-medium border-slate-700"
-                      : "text-slate-300 hover:bg-white/5 hover:border-slate-800"
-                  }`
-                }
-              >
-                <LogIn size={20} />
-                <span>Login</span>
-              </NavLink>
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              key="mobile-menu"
+              className="md:hidden border-t border-slate-800/70 overflow-hidden"
+              initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+              animate={
+                reduceMotion ? undefined : { height: "auto", opacity: 1 }
+              }
+              exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+            >
+              <div className="py-4">
+                <div className="flex flex-col space-y-3">
+                  <NavLink
+                    to="/login"
+                    onClick={() => setIsMenuOpen(false)}
+                    className={({ isActive }) =>
+                      `flex items-center space-x-3 px-4 py-3 rounded-lg border border-transparent ${
+                        isActive
+                          ? "bg-white/10 text-white font-medium border-slate-700"
+                          : "text-slate-300 hover:bg-white/5 hover:border-slate-800"
+                      }`
+                    }
+                  >
+                    <LogIn size={20} />
+                    <span>Login</span>
+                  </NavLink>
 
-              <NavLink
-                to="/signup"
-                onClick={() => setIsMenuOpen(false)}
-                className={({ isActive }) =>
-                  `flex items-center space-x-3 px-4 py-3 rounded-lg font-medium ${
-                    isActive
-                      ? "bg-linear-to-r from-cyan-300 via-sky-400 to-indigo-400 text-slate-950"
-                      : "bg-linear-to-r from-cyan-300 via-sky-400 to-indigo-400 text-slate-950"
-                  }`
-                }
-              >
-                <User size={20} />
-                <span>Sign Up</span>
-              </NavLink>
-            </div>
-          </div>
-        )}
+                  <NavLink
+                    to="/signup"
+                    onClick={() => setIsMenuOpen(false)}
+                    className={({ isActive }) =>
+                      `flex items-center space-x-3 px-4 py-3 rounded-lg font-medium ${
+                        isActive
+                          ? "bg-linear-to-r from-cyan-300 via-sky-400 to-indigo-400 text-slate-950"
+                          : "bg-linear-to-r from-cyan-300 via-sky-400 to-indigo-400 text-slate-950"
+                      }`
+                    }
+                  >
+                    <User size={20} />
+                    <span>Sign Up</span>
+                  </NavLink>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </header>
   );

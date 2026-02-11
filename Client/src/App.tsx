@@ -1,6 +1,8 @@
-import { Routes, Route, Outlet } from "react-router-dom";
+import { Routes, Route, Outlet, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import PageTransition from "./components/PageTransition";
 import CreateTournament from "./pages/auth/organizer/create-tournament";
 import JoinTournament from "./pages/auth/player/join-tournament";
 import Landing from "./pages/public/landing";
@@ -12,15 +14,23 @@ import Login from "./pages/public/login";
 import Dashboard from "./pages/auth/Dashboard";
 import VerifyOtp from "./pages/public/verify-otp";
 
-const Layout = () => (
-  <div className="min-h-dvh flex flex-col bg-transparent text-slate-100">
-    <Navbar />
-    <main className="flex-1">
-      <Outlet />
-    </main>
-    <Footer />
-  </div>
-);
+const Layout = () => {
+  const location = useLocation();
+
+  return (
+    <div className="min-h-dvh flex flex-col bg-transparent text-slate-100">
+      <Navbar />
+      <main className="flex-1">
+        <AnimatePresence mode="wait">
+          <PageTransition key={location.pathname}>
+            <Outlet />
+          </PageTransition>
+        </AnimatePresence>
+      </main>
+      <Footer />
+    </div>
+  );
+};
 
 const App = () => {
   return (
