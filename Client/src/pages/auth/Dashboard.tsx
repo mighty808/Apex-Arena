@@ -1,7 +1,7 @@
 const Dashboard = () => {
   return (
     <div>
-      Login Dashboard
+      Landing Dashboard
     </div>
   )
 }
