@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Mail, ShieldCheck, Trophy } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
+import { useAuth } from "../../lib/auth-context";
+import { ApiRequestError, authService } from "../../services/auth.service";
 
 const OTP_LENGTH = 6;
 const RESEND_SECONDS = 30;
@@ -9,6 +11,7 @@ const RESEND_SECONDS = 30;
 const VerifyOtp = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { setSession } = useAuth();
   const reduceMotion = useReducedMotion();
 
   const query = useMemo(
@@ -25,6 +28,7 @@ const VerifyOtp = () => {
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isResending, setIsResending] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(0);
 
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
@@ -138,17 +142,42 @@ const VerifyOtp = () => {
   const code = digits.join("");
   const isComplete = code.length === OTP_LENGTH && /^\d{6}$/.test(code);
 
-  const handleResend = () => {
+  const handleResend = async () => {
     if (secondsLeft > 0) return;
-    setSecondsLeft(RESEND_SECONDS);
-    setInfo("A new verification code has been sent. (Demo)");
+
+    if (!email) {
+      setError("Missing email. Return to sign up and try again.");
+      return;
+    }
+
+    setIsResending(true);
     setError("");
+    setInfo("");
+
+    try {
+      const result = await authService.resendOtp(email);
+      setInfo(result.message ?? "A new verification code has been sent.");
+      setSecondsLeft(RESEND_SECONDS);
+    } catch (error) {
+      if (error instanceof ApiRequestError) {
+        setError(error.message);
+      } else {
+        setError("Could not resend code. Please try again.");
+      }
+    } finally {
+      setIsResending(false);
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setInfo("");
+
+    if (!email) {
+      setError("Missing email. Return to sign up and try again.");
+      return;
+    }
 
     if (!isComplete) {
       setError("Enter the 6-digit code.");
@@ -157,11 +186,28 @@ const VerifyOtp = () => {
     }
 
     setIsLoading(true);
-    // Simulate API verify
-    window.setTimeout(() => {
-      setIsLoading(false);
+
+    try {
+      const result = await authService.verifyOtp({ email, otp: code });
+
+      if (result.tokens?.accessToken) {
+        setSession(result.tokens, result.user ?? null);
+      }
+
+      if (result.message) {
+        setInfo(result.message);
+      }
+
       navigate(nextPath);
-    }, 900);
+    } catch (error) {
+      if (error instanceof ApiRequestError) {
+        setError(error.message);
+      } else {
+        setError("Verification failed. Please try again.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -258,13 +304,19 @@ const VerifyOtp = () => {
           <motion.button
             type="button"
             onClick={handleResend}
-            disabled={secondsLeft > 0}
+            disabled={secondsLeft > 0 || isResending}
             className="text-sm text-cyan-300 hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
             whileTap={
-              reduceMotion || secondsLeft > 0 ? undefined : { scale: 0.98 }
+              reduceMotion || secondsLeft > 0 || isResending
+                ? undefined
+                : { scale: 0.98 }
             }
           >
-            {secondsLeft > 0 ? `Resend in ${secondsLeft}s` : "Resend code"}
+            {isResending
+              ? "Resending..."
+              : secondsLeft > 0
+                ? `Resend in ${secondsLeft}s`
+                : "Resend code"}
           </motion.button>
 
           <Link to="/login" className="text-sm text-slate-300 hover:text-white">

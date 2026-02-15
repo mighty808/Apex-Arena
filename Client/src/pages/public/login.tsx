@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { Mail, Lock, Eye, EyeOff, Trophy } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
+import { useAuth } from "../../lib/auth-context";
+import { ApiRequestError } from "../../services/auth.service";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [form, setForm] = useState({
     identifier: "",
     password: "",
@@ -15,6 +19,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [serverError, setServerError] = useState("");
   const reduceMotion = useReducedMotion();
 
   const validate = () => {
@@ -40,21 +45,52 @@ const Login = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
+    if (serverError) setServerError("");
     setErrors({ ...errors, [name]: "" });
   };
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitted(true);
-    if (validate()) {
-      setIsLoading(true);
-      // Simulate API call
-      setTimeout(() => {
-        alert("Logged in! (Demo only)");
-        setForm({ identifier: "", password: "" });
-        setIsLoading(false);
-        setSubmitted(false);
-      }, 1000);
+
+    if (!validate()) {
+      return;
+    }
+
+    setIsLoading(true);
+    setServerError("");
+
+    try {
+      await login({
+        identifier: form.identifier.trim(),
+        password: form.password,
+      });
+      setForm({ identifier: "", password: "" });
+      setSubmitted(false);
+      navigate("/auth");
+    } catch (error) {
+      if (error instanceof ApiRequestError) {
+        if (error.code === "EMAIL_NOT_VERIFIED") {
+          const email = form.identifier.trim();
+          if (email.includes("@")) {
+            navigate(
+              `/verify-otp?email=${encodeURIComponent(email)}&next=${encodeURIComponent("/auth")}`,
+            );
+            return;
+          }
+
+          setServerError(
+            "Please login with your email to continue verification.",
+          );
+          return;
+        }
+
+        setServerError(error.message);
+      } else {
+        setServerError("Login failed. Please try again.");
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -83,6 +119,12 @@ const Login = () => {
         <p className="text-center text-slate-300 text-sm mb-8">
           Log in to your account to continue
         </p>
+
+        {serverError && (
+          <div className="mb-5 rounded-lg border border-red-500/40 bg-red-500/10 px-3 py-2 text-sm text-red-300">
+            {serverError}
+          </div>
+        )}
 
         <div className="space-y-5">
           {/* Username / Email */}
