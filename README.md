@@ -27,18 +27,21 @@ The platform addresses major challenges in the local esports ecosystem, includin
 ## 👥 Platform Roles
 
 ### Players
+
 - Discover verified tournaments
 - Register for free or paid competitions
 - Compete and track performance
 - Receive and withdraw prizes securely
 
 ### Organizers (Verified)
+
 - Create and manage tournaments
 - Deposit prize funds into escrow
 - Collect entry fees automatically
 - Declare winners and run events professionally
 
 ### Platform (Apex Arenas)
+
 - Provides tournament software
 - Processes payments and escrow
 - Distributes prizes automatically
@@ -50,6 +53,7 @@ The platform addresses major challenges in the local esports ecosystem, includin
 ## 🔄 System Workflow
 
 ### Player Journey
+
 1. Create account
 2. Browse tournaments
 3. Register (free or paid)
@@ -58,6 +62,7 @@ The platform addresses major challenges in the local esports ecosystem, includin
 6. Withdraw funds
 
 ### Organizer Journey
+
 1. Register and apply for organizer status
 2. Admin verification
 3. Create tournament
@@ -84,15 +89,18 @@ The platform addresses major challenges in the local esports ecosystem, includin
 ## 💰 Money Flow (Transparent & Automated)
 
 ### Entry Fees (Paid Tournaments)
+
 - 10% → Platform service fee
 - 90% → Organizer earnings
 
 ### Prize Escrow
+
 - Organizer deposits full prize amount
 - 1% → Escrow service fee
 - 99% → Locked escrow account
 
 ### Prize Distribution
+
 - Triggered automatically when tournament is marked completed
 - Funds sent directly to winners’ Mobile Money or bank accounts
 
@@ -101,12 +109,14 @@ The platform addresses major challenges in the local esports ecosystem, includin
 ## 🛠️ Key Features
 
 ### Player Features
+
 - Player profiles with stats and history
 - Tournament discovery and filtering
 - Secure payments and withdrawals
 - Notifications (registration, matches, prizes)
 
 ### Organizer Features
+
 - Tournament creation dashboard
 - Automated registration management
 - Match and bracket management
@@ -114,6 +124,7 @@ The platform addresses major challenges in the local esports ecosystem, includin
 - Credibility scoring
 
 ### Admin Features
+
 - Organizer verification
 - Withdrawal approval
 - Dispute resolution
@@ -165,6 +176,7 @@ The platform addresses major challenges in the local esports ecosystem, includin
 ## 📄 Legal Positioning
 
 Apex Arenas operates strictly as a **technology service provider**:
+
 - Does not run tournaments
 - Does not act as a betting or gaming operator
 - Does not guarantee prizes from its own funds
@@ -189,10 +201,12 @@ Confidential — Internal & Partner Use Only
 ## 🧩 Current Implementation (Feb 2026)
 
 ### Frontend Apps
+
 - `Client/` — Main user app (players + organizers)
 - `SuperAdmin/` — Super admin interface (separate Vite app)
 
 ### Auth Flows Implemented (Client)
+
 - Registration with role selection (`player` / `organizer`)
 - Login with backend integration
 - OTP verification and OTP resend
@@ -205,33 +219,37 @@ Confidential — Internal & Partner Use Only
 - Dashboard now fetches authenticated profile data
 
 ### API Configuration
+
 - Auth API base URL is configured via:
-	- `VITE_AUTH_BASE_URL`
+  - `VITE_AUTH_BASE_URL`
 - Default fallback in code:
-	- `https://api-apexarenas.onrender.com/api/v1/auth`
+  - `https://api-apexarenas.onrender.com/api/v1/auth`
 
 ---
 
 ## 🌐 Deployment Notes (Render)
 
 ### Frontend (Static Site)
+
 - Service type: **Static Site**
 - Root directory: `Client`
 - Build command: `npm install && npm run build`
 - Publish directory: `dist`
 - Required env var:
-	- `VITE_AUTH_BASE_URL=https://api-apexarenas.onrender.com/api/v1/auth`
+  - `VITE_AUTH_BASE_URL=https://api-apexarenas.onrender.com/api/v1/auth`
 
 ### SPA Rewrite Rule (Required)
+
 - Add rewrite rule in Render:
-	- Source: `/*`
-	- Destination: `/index.html`
-	- Action: `Rewrite`
+  - Source: `/*`
+  - Destination: `/index.html`
+  - Action: `Rewrite`
 
 ### Backend CORS (Required for Browser Requests)
+
 - Allow frontend origins in backend CORS config/env (example):
-	- `http://localhost:5173`
-	- `https://<your-render-frontend-domain>.onrender.com`
+  - `http://localhost:5173`
+  - `https://<your-render-frontend-domain>.onrender.com`
 - Ensure preflight responses include `Access-Control-Allow-Origin` and related CORS headers.
 
 ---
